@@ -24,6 +24,19 @@ def send_content(content,id_num):
     d = json.dumps(params)
     r = requests.post(url, data=d)
 
+def send_content_web(content,id_num):
+    url = "http://www.hotpoor.org/api/comment/submit_data_free"
+    data = "123"
+    params = {
+        "user_id": "2dd2c53e7c654c66b398e574848d4c34",
+        "aim_id": "2dd2c53e7c654c66b398e574848d4c34",
+        "app":"hotpoor",
+        "content": u"HWEBIMGBASE64//%d_@@_data:image/jpeg;base64,%s"%(id_num,content),
+    }
+    d = params
+    d = json.dumps(params)
+    r = requests.post(url, data=d)
+
 
 def test():
     global cameras,cameras_num
@@ -65,13 +78,13 @@ def test_list():
             fps = 1
         else:
             fps = 1 / (end - start)
-        if start - st >camera_fps_base:
-            st = start
-            cameras[k][2]=st
-            print("video:",i,":",len(img_b64),"FPS:{:.0f}".format(fps),"%s %s"%(start,end))
-            send_content(img_b64,i)
-        else:
-            continue
+        print("video:",i,":",len(img_b64),"FPS:{:.0f}".format(fps),"%s %s"%(start,end))
+        send_content_web(img_b64,i)
+        # if start - st >camera_fps_base:
+        #     st = start
+        #     cameras[k][2]=st
+        # else:
+        #     continue
 test()
 while 1:
     test_list()
